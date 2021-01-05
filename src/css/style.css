@@ -1,0 +1,176 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    font-size: 16px;
+    font-weight: 600;
+    outline: none;
+    -webkit-user-select: none;
+}
+
+#dbl{
+    background-color: #000;
+    width: 100%;
+}
+
+.frame{
+    margin-left: 2px;
+    margin-right: 2px;
+    width: 100%;
+    height: 25px;
+    background-color: #000;
+    -webkit-app-region: drag;
+    box-sizing: border-box;
+    font-weight: 900;
+    display: flex;
+    justify-content: flex-end;
+    position: fixed;
+    top:0;
+    z-index: 999;
+}
+
+body{
+    background-color: #171717;
+}
+
+.title{
+    color: #FFF;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    font-family: monospace;
+}
+
+.title div{
+    width: 100%;
+}
+
+#logo{
+    margin: 0 10px;
+}
+
+#fechar, #minimizar,#sempre_topo,#maximizar{
+    -webkit-user-drag: none;
+    -webkit-app-region: none;
+    width: 50%;
+    
+}
+
+.fecharBtn,.minimizarBtn,.sempreTopoBtn,.maximizarBtn{
+    width: 50px;
+    height: 100%;
+    display: flex;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+}
+
+.minimizarBtn:hover,.sempreTopoBtn:hover,.maximizarBtn:hover{
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.fecharBtn:hover{
+    background-color: rgba(255,0,0,0.5);
+}
+
+.container{
+    width: 100%;
+    min-height: 95vh;
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+aside{
+    min-width: 200px;
+    background-color: #101010;
+    height: 100%;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2px;
+    color: #FFF;
+}
+
+#lucroAtual:disabled, #gastoAtual:disabled{
+    margin-top: 20px;
+    width: 60%;
+    height: 30px;
+    border: 2px dashed #FFF;
+    background-color: transparent;
+    border-bottom-left-radius: 20px;
+    border-top-right-radius: 20px;
+    color: #FFF;
+    font-family: monospace;
+    text-align: center;
+}
+
+#saldoAtual:disabled{
+    width: 60%;
+    height: 30px;
+    border: 2px dashed #FFF;
+    background-color: transparent;
+    border-bottom-left-radius: 20px;
+    border-top-right-radius: 20px;
+    color: #FFF;
+    font-family: monospace;
+    text-align: center;
+}
+
+.SaldoAtual{
+    position: absolute;
+    top: 44%;
+    color: #FFF;
+    background-color: #000;
+    height: 11%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.Lucros, .Gastos{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 2px solid #FFF;
+}
+
+.Lucros{
+    background-color: rgba(0,200,0,0.2);
+    transition: 0.3s ease-out all;
+}
+
+.Lucros:hover{
+    cursor: pointer;
+    background-color: rgba(0,200,0,0.4);
+}
+
+.Lucros:active{
+    background-color: rgba(0,150,0,0.2);
+}
+
+.Gastos{
+    background-color: rgba(200,0,0,0.2);
+    transition: 0.3s ease-out all;
+}
+
+.Gastos:hover{
+    cursor: pointer;
+    background-color: rgba(200,0,0,0.4);
+}
+
+.Gastos:active{
+    background-color: rgba(150,0,0,0.2);
+}
+
+::-webkit-scrollbar{
+    width: 0;
+}

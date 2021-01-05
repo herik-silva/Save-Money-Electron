@@ -1,0 +1,22 @@
+.inputBloqueado{
+    width: 100%;
+    text-align: center;
+    padding: 5px 0;
+    border: none;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    transition: 0.3s ease-in-out all;
+    background-color: transparent;
+}
+
+.inputBloqueado:disabled{
+    color: #FFF;
+}
+
+.inputBloqueado:nth-child(1){
+    border-bottom: 2px solid #FFF;
+}
+
+.inputBloqueado::placeholder{
+    color: #FFF;
+}

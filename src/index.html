@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Save Money</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/bloqueado.css">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+</head>
+<body>
+    <div class="frame">
+        <div class="title">
+            <img src="../resources/logoApp.png" id="logo">
+            <div id="dbl">Save Money - Modo Desenvolvedor - Herik</div>
+        </div>
+        <button class="sempreTopoBtn">
+            <img src="../resources/offTop.png" id="sempre_topo">
+        </button>
+        <button class="minimizarBtn">
+            <img src="../resources/minimize.png" id="minimizar">
+        </button>
+        <button class="maximizarBtn">
+            <img src="../resources/maximize.png" id="maximizar">
+        </button>
+        <button class="fecharBtn">
+            <img src="../resources/cross.png" id="fechar">
+        </button>
+    </div>
+
+    <div class="container">
+        <aside>
+            <div class="Lucros">
+                <div class="imgCedula">
+                    <img src="../resources/lucro.png">
+                </div>
+                <h1>Lucros</h1>
+                <input type="text" disabled id="lucroAtual" value="R$ 00,00">
+            </div>
+            <div class="Gastos">
+                <div class="imgCedula">
+                    <img src="../resources/gasto.png">
+                </div>
+                <h1>Gastos</h1>
+                <input type="text" disabled id="gastoAtual" value="R$ 00,00">
+            </div>
+            <div class="SaldoAtual">
+                <h1>Saldo Atual</h1>
+                <input type="text" disabled id="saldoAtual" value="R$ 00,00">
+            </div>
+        </aside>
+
+        <main>
+            <div class="item-lucro">
+                <div class="titulo">
+                    <h1>Lucros</h1>
+                </div>
+                <div class="itens">
+                    <div class="novoItem" id="addLucro">
+                        <span id="add">+</span>
+                        <span>Novo Item</span>
+                    </div>
+                </div>
+            </div>
+                
+            <div class="item-gasto">
+                <div class="titulo">
+                    <h1>Gastos</h1>
+                </div>
+                <div class="itens">
+                    <div class="novoItem" id="addGasto">
+                        <span id="add">+</span>
+                        <span>Novo Item</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/render.js"></script>
+    <script src="js/cards.js"></script>
+</body>
+</html>

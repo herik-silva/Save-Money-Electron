@@ -1,0 +1,203 @@
+main{
+    margin-left: 200px;
+    height: 100%;
+    color: #FFF;
+    padding: 10px;
+}
+
+.titulo{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.titulo h1{
+    font-family: monospace;
+    font-size: 28px;
+}
+
+.trancarPagina{
+    width: 100%;
+    height: 25px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.trancarPagina button{
+    background-color: rgba(0,200,0,0.4);
+    color: #FFF;
+    border: none;
+    width: 130px;
+    height: 35px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.trancarPagina button:hover{
+    filter: brightness(200);
+    cursor: pointer;
+}
+
+.trancarPagina button:active{
+    filter: brightness(1);
+}
+
+.itens{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    min-height: 100%;
+    margin-top: 15px;
+}
+
+.novoItem{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 150px;
+    margin: 15px 10px;
+    border-radius: 20px;
+    border: 3px dotted #FFF;
+    background-color: transparent;
+    box-sizing: border-box;
+    transition: 0.3s ease-in-out all;
+
+}
+
+#add{
+    width: 50%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    color: #FFF;
+    background-color: transparent;
+    border: 2px dotted #FFF;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+#addLucro:hover{
+    cursor:cell;
+    background-color: rgba(0,200,0,0.4);
+    transform: scale(1.1);
+}
+
+#addGasto:hover{
+    cursor:cell;
+    background-color: rgba(200,0,0,0.4);
+    transform: scale(1.1);
+}
+
+.item-lucro, .item-gasto{
+    width: 100%;
+    min-height: 90vh;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.item-gasto{
+    display: none;
+}
+
+.itemLucro, .itemGasto{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 150px;
+    height: 150px;
+    margin: 15px 10px;
+    border-radius: 20px;
+    border: 2px solid #FFF;
+    transition: 0.3s ease-in-out all;
+}
+
+.itemLucro{
+    background-color: rgba(0,200,0,0.4);
+}
+
+.itemGasto{
+    background-color: rgba(200,0,0,0.4);
+}
+
+.itemLucro:hover, .itemGasto:hover{
+    transform: scale(1.2);
+}
+
+.nome{
+    width: 100%;
+    padding: 5px 0;
+    border: none;
+    color: #FFF;
+    border-bottom: 2px solid #FFF;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    transition: 0.3s ease-in-out all;
+    background-color: transparent;
+}
+
+.nome:hover, .valor:hover{
+    color: #171717;
+
+    cursor: text;
+    background-color: rgb(225, 225, 225);
+}
+
+.nome:focus, .valor:focus{
+    color:#171717;
+    background-color: rgb(225, 225, 225);
+    text-align: center;
+}
+
+.valor::placeholder, .nome::placeholder{
+    color:#FFF;
+}
+
+.valor:hover::placeholder, .nome:hover::placeholder{
+    color:#171717;
+}
+
+.valor:focus::placeholder, .nome:focus::placeholder{
+    color:#171717;
+}
+
+.valor{
+    width: 90%;
+    text-align: center;
+    background-color: transparent;
+    border: none;
+    color: #FFF;
+    transition: 0.3s ease-in-out all;
+}
+
+
+
+.itemLucro button, .itemGasto button{
+    width: 100%;
+    height: 20px;
+    border-bottom-left-radius: 17px;
+    border-bottom-right-radius: 17px;
+    border: none;
+    transition: 0.3s ease-out all;
+    color: #171717;
+}
+
+.itemLucro button:hover, .itemGasto button:hover{
+    background-color: rgb(150,0,0);
+    color: #FFF;
+    cursor: pointer;
+    height: 30px;
+}
+
+.itemLucro button:active, .itemGasto button:active{
+    background-color: #FFF;
+    color: #171717;
+}
