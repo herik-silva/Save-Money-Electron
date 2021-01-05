@@ -33,7 +33,7 @@ async function factoryControllerLucros(){
         /**
          * Carrega todos os card do banco de dados para aplicação.
          */
-        carregarCards: async(carregamento)=>{
+        carregarCards: async()=>{
             ControllerLucros.listaLucros = await LucrosDAO.carregarCards();
             console.log(ControllerLucros.listaLucros);
             if(ControllerLucros.listaLucros.length>0){

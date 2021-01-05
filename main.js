@@ -1,10 +1,14 @@
 const { app, BrowserWindow, ipcMain, screen } = require('electron');
 const path = require('path');
-var ControllerLucros;
+var ControllerLucros, ControllerGastos;
 
 require('./Controllers/ControllerLucros')().then((value)=>{
   ControllerLucros = value;
 });
+
+require('./Controllers/ControllerGastos')().then((value)=>{
+  ControllerGastos = value;
+})
 
 
 function createWindow () {
@@ -85,25 +89,50 @@ app.on('activate', () => {
 // Banco de Dados
 
 ipcMain.on('main/editarValor',(event,arg)=>{
-  console.log("Atualizado\n"+arg);
-  ControllerLucros.atualizarCard(arg[0],arg[1],arg[2]);
+  const [id, titulo, valor, tipo] = arg;
+
+  if(tipo=='Lucro'){
+    ControllerLucros.atualizarCard(id, titulo, valor);
+  }
+  else{
+    ControllerGastos.atualizarCard(id, titulo, valor);
+  }
 })
 
 ipcMain.on('main/inserirCard',(event, arg)=>{
-  ControllerLucros.criarCard(arg.titulo,arg.valor,arg.data);
-  ControllerLucros.carregarCards('primeiro');
+  const [card, tipo] = arg;
+  
+  if(tipo=='Lucro'){
+    ControllerLucros.criarCard(card[0].titulo,card[0].valor,card[0].data);
+    ControllerLucros.carregarCards();
+  }
+  else{
+    ControllerGastos.criarCard(card[0].titulo,card[0].valor,card[0].data);
+    ControllerGastos.carregarCards();
+  }
 })
 
 ipcMain.on('main/primeiroCarregamento', (event, arg)=>{
-  ControllerLucros.carregarCards('primeiro').then((value)=>{
+  ControllerLucros.carregarCards().then((value)=>{
     console.log(`Enviando: ${ControllerLucros.listaLucros}`);
-    event.reply('render/primeiroCarregamento', [ControllerLucros.listaLucros, true]);
+    event.reply('render/primeiroCarregamento', [ControllerLucros.listaLucros, true, 'Lucro']);
   });
+  
+  ControllerGastos.carregarCards().then((value)=>{
+    console.log(`Enviando Gastos: ${ControllerGastos.listaGastos}`);
+    event.reply('render/primeiroCarregamento', [ControllerGastos.listaGastos, true, 'Gasto']);
+  })
 })
 
-ipcMain.on('main/removerCardLucro', (event,id)=>{
-  console.log("REMOVIDO! ID: " + id);
-  ControllerLucros.removerCard(id);
+ipcMain.on('main/removerCardLucro', (event,arg)=>{
+  const [card, tipo] = arg;
+
+  if(tipo=='Lucro'){
+    ControllerLucros.removerCard(card);
+  }
+  else{
+    ControllerGastos.removerCard(card);
+  }
 })
 
 // Funcionando

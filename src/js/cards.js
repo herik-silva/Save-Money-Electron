@@ -119,9 +119,9 @@ function criarCard(elemento,tipo, cardEnviado, carregamento){
     valor.addEventListener('blur',()=>{
         concatRS(valor, tipo);
         console.log("Atualizando Preço");
-        var aux = parseFloat(valor.value.split('R$ ')[1]);
+        var valor_card = parseFloat(valor.value.split('R$ ')[1]);
 
-        ipcRenderer.send('main/atualizarCard', [item.id, titulo_marquee.innerText , aux]);
+        ipcRenderer.send('main/atualizarCard', [item.id, titulo_marquee.innerText , valor_card, tipo]);
     })
 
     const data = document.createElement('span');
@@ -197,7 +197,7 @@ function criarCard(elemento,tipo, cardEnviado, carregamento){
     if(!carregamento){
         if(tipo=='Lucro'){
             novoLucro.valor = parseFloat(valor.value.split('R$ ')[1]);
-            ipcRenderer.send('main/inserirCard',novoLucro);
+            ipcRenderer.send('main/inserirCard',[novoLucro, tipo]);
         }
     }
 }
@@ -269,11 +269,19 @@ novoCardGasto.addEventListener('click',()=>{
 ipcRenderer.send('main/primeiroCarregamento', null);
 ipcRenderer.on('render/primeiroCarregamento', (event, arg)=>{
     console.log(arg[0]);
-    if(arg[0].length>0){
+    if(arg[0].length>0, arg[3]=='Lucro'){
         console.log("Carregando cards");
         for(let i=0; i<arg[0].length; i++){
-            criarCard('.item-lucro .itens', 'Lucro', arg[0][i],arg[1]);
+            criarCard('.item-lucro .itens', arg[3], arg[0][i],arg[2]);
         }
+        // Ultimo id do card 
         auto_increment = arg[0][arg[0].length-1].id+1;
+    }
+
+    if(arg[1].length>0 && arg[3]=='Gasto'){
+        console.log("Carregando Gastos");
+        for(let i=0; i<arg[1].length; i++){
+            criarCard('.item-gasto .itens', arg[3], arg[1][i], arg[2]);
+        }
     }
 })
