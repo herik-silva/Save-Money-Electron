@@ -100,14 +100,16 @@ ipcMain.on('main/editarValor',(event,arg)=>{
 })
 
 ipcMain.on('main/inserirCard',(event, arg)=>{
-  const [card, tipo] = arg;
+  const [card, tipo] = arg
+
+  console.log("CRIADO: "+card.titulo);
   
   if(tipo=='Lucro'){
-    ControllerLucros.criarCard(card[0].titulo,card[0].valor,card[0].data);
+    ControllerLucros.criarCard(card.titulo,card.valor,card.data);
     ControllerLucros.carregarCards();
   }
   else{
-    ControllerGastos.criarCard(card[0].titulo,card[0].valor,card[0].data);
+    ControllerGastos.criarCard(card.titulo,card.valor,card.data);
     ControllerGastos.carregarCards();
   }
 })
@@ -124,20 +126,37 @@ ipcMain.on('main/primeiroCarregamento', (event, arg)=>{
   })
 })
 
-ipcMain.on('main/removerCardLucro', (event,arg)=>{
-  const [card, tipo] = arg;
+ipcMain.on('main/removerCard', (event,arg)=>{
+  const [id, tipo] = arg;
 
   if(tipo=='Lucro'){
-    ControllerLucros.removerCard(card);
+    console.log(`ID REMOVIDO: ${id}`);
+    ControllerLucros.removerCard(id);
   }
   else{
-    ControllerGastos.removerCard(card);
+    console.log(`ID REMOVIDO: ${id}`);
+    ControllerGastos.removerCard(id);
   }
 })
 
 // Funcionando
 ipcMain.on('main/atualizarCard',(event,arg)=>{
-  console.log(`ID: ${arg[0]} - Titulo: ${arg[1]} - Valor: ${arg[2]}`);
-  ControllerLucros.atualizarCard(arg[0],arg[1],arg[2]);
+  const card = {
+    id: arg[0],
+    titulo: arg[1],
+    valor: arg[2],
+    tipo: arg[3]
+  }
+  
+  console.log("TIPO: ", card.tipo);
+  console.log(`ID: ${card.id} - Titulo: ${card.titulo} - Valor: ${card.valor}`);
+
+  if(card.tipo=='Lucro'){
+    ControllerLucros.atualizarCard(card.id,card.titulo,card.valor);
+  }
+  else{
+    ControllerGastos.atualizarCard(card.id,card.titulo,card.valor);
+  }
+
   console.log("Atualizado!");
 })
