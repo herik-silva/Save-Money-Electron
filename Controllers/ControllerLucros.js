@@ -15,15 +15,13 @@ async function factoryControllerLucros(){
          * @param {Number} valor Valor do Card. Ex: 25.00 ou 25.
          * @param {Date} data_criada Data em que o card foi criado.
          */
-        criarCard: async(titulo, valor, data_criada)=>{
+        async criarCard(titulo, valor, data_criada){
             const card ={
                 id: ControllerLucros.ultimoId,
                 titulo: titulo,
                 valor: valor,
                 data_criada: data_criada
             }
-
-            console.log("ID CARD: " + card.id);
             
             await LucrosDAO.inserirCard(card.id, card.titulo, card.valor, card.data_criada);
 
@@ -33,9 +31,8 @@ async function factoryControllerLucros(){
         /**
          * Carrega todos os card do banco de dados para aplicação.
          */
-        carregarCards: async()=>{
+        async carregarCards(){
             ControllerLucros.listaLucros = await LucrosDAO.carregarCards();
-            console.log(ControllerLucros.listaLucros);
             if(ControllerLucros.listaLucros.length>0){
                 ControllerLucros.ultimoId = ControllerLucros.listaLucros[ControllerLucros.listaLucros.length-1].id+1;
             }
@@ -47,7 +44,7 @@ async function factoryControllerLucros(){
          * @param {String} titulo Titulo do card.
          * @param {Number} valor Valor do card. Ex: 25.00 ou 25. 
          */
-        atualizarCard: async (id, titulo, valor)=>{
+        async atualizarCard(id, titulo, valor){
             await LucrosDAO.atualizarCard(id, titulo, valor);
         },
 
@@ -55,7 +52,7 @@ async function factoryControllerLucros(){
          * Remove o card selecionado no banco de dados.
          * @param {Number} id Id do Card.
          */
-        removerCard: async(id)=>{
+        async removerCard(id){
             await LucrosDAO.deletarCard(id);
         }
     }

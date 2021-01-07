@@ -23,7 +23,6 @@ async function factoryGastosDAO(){
             const SELECT = `SELECT * FROM ${GastosDAO.tabela}`;
             const listaGastos = await conexao.all(SELECT);
 
-            console.log(`Retornando: ${listaGastos}`);
             return listaGastos || [];
         },
 

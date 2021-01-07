@@ -1,4 +1,5 @@
 var auto_increment=1;
+var auto_increment_lucro=1;
 const listaLucros = [];
 const listaGastos = [];
 
@@ -12,13 +13,20 @@ const novoCardLucro = document.querySelector('.item-lucro .novoItem');
 const novoCardGasto = document.querySelector('.item-gasto .novoItem');
 
 function toNumber(value){
-    console.log("ATUALIZANDO");
     return parseFloat(value.split('R$ ')[1]);
 }
 
-function criarItem(id, titulo,valor,data){
+function criarItem(id, titulo, valor, data, tipo){
     const date = new Date();
     var dia,mes;
+    var novoId;
+
+    if(tipo=='Lucro'){
+        novoId = auto_increment_lucro;
+    }
+    else{
+        novoId = auto_increment;
+    }
 
     if(date.getMonth() < 10){
         mes = `0${date.getMonth()+1}`;
@@ -35,11 +43,12 @@ function criarItem(id, titulo,valor,data){
     }
 
     let novoLucro = {
-        id: id || auto_increment++,
+        id: id || novoId,
         titulo: titulo,
         valor: valor,
         data: data  || `${dia}/${mes}/${date.getFullYear()}`
     }
+
 
     return novoLucro;
 }
@@ -49,21 +58,16 @@ function trocarElemento(elementoA,elementoB){
     elementoB.style.display = 'block';
 }
 
-function carregamento(listaLucros){
-    console.log(listaLucros);
-    
-}
-
 function criarCard(elemento,tipo, cardEnviado, carregamento){
     const itens = document.querySelector(elemento);
     const novoItem = document.querySelector(`${elemento} .novoItem`);
     itens.removeChild(novoItem);
 
     if(cardEnviado==null){
-        var novoLucro = criarItem(null,'Ex: Salário','Ex: 1045');
+        var novoLucro = criarItem(null,'Ex: Salário','Ex: 1045', null, tipo);
     }
     else{
-        var novoLucro = criarItem(cardEnviado.id ,cardEnviado.titulo, cardEnviado.valor, cardEnviado.data);
+        var novoLucro = criarItem(cardEnviado.id ,cardEnviado.titulo, cardEnviado.valor, cardEnviado.data, tipo);
     }
 
     const item = document.createElement('div');
@@ -81,7 +85,6 @@ function criarCard(elemento,tipo, cardEnviado, carregamento){
         titulo_marquee.innerText = novoLucro.titulo;
     }
     else{
-        console.log("Atualizado mesmo!")
         titulo_marquee.innerText = cardEnviado.titulo;
     }
     
@@ -118,7 +121,6 @@ function criarCard(elemento,tipo, cardEnviado, carregamento){
     }
     valor.addEventListener('blur',()=>{
         concatRS(valor, tipo);
-        console.log("Atualizando Preço");
         var valor_card = parseFloat(valor.value.split('R$ ')[1]);
 
         ipcRenderer.send('main/atualizarCard', [item.id, titulo_marquee.innerText , valor_card, tipo]);
@@ -141,8 +143,6 @@ function criarCard(elemento,tipo, cardEnviado, carregamento){
                     for(let i=index; i<listaLucros.length; i++){
                         listaLucros[i] = listaLucros[i+1];
                     }
-                    console.log("Removido!");
-                    console.log("ID: " + valor.id);
                     ipcRenderer.send("main/removerCard", [valor.id, tipo]);
                     listaLucros.pop();
                     return
@@ -160,6 +160,8 @@ function criarCard(elemento,tipo, cardEnviado, carregamento){
                     for(let i=index; i<listaGastos.length; i++){
                         listaGastos[i] = listaGastos[i+1];
                     }
+                    ipcRenderer.send("main/removerCard", [valor.id, tipo]);
+
                     listaGastos.pop();
                     return
                 }
@@ -273,22 +275,21 @@ novoCardGasto.addEventListener('click',()=>{
 
 ipcRenderer.send('main/primeiroCarregamento', null);
 ipcRenderer.on('render/primeiroCarregamento', (event, arg)=>{
-    const [array, carregamento, tipo] = arg;
-    console.log(array + "\n TIPO: "+tipo);
+    const [array, carregamento, tipo, ultimoId] = arg;
+
+    console.log("Tipo: " + tipo);
     if(array.length>0 && tipo=='Lucro'){
-        console.log("Carregando cards");
         for(let i=0; i<array.length; i++){
             criarCard('.item-lucro .itens', tipo, array[i], carregamento);
         }
         // Ultimo id do card 
-        auto_increment = array[array.length-1].id+1;
+        auto_increment_lucro = ultimoId;
     }
 
     if(array.length>0 && tipo=='Gasto'){
-        console.log("Carregando Gastos");
         for(let i=0; i<array.length; i++){
             criarCard('.item-gasto .itens', tipo, array[i], carregamento);
         }
-        auto_increment = array[array.length-1].id+1;
+        auto_increment = ultimoId;
     }
 })

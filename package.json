@@ -1,50 +1,53 @@
 {
-  "name": "Save-Money",
+  "name": "save-money",
   "version": "1.0.0",
-  "description": "Aplicativo para controle financeiro",
+  "description": "Controle financeiro é a base de uma vida sem dívidas.",
   "main": "main.js",
-  "icon": "./resources/logoApp.png",
+  "author": "Herik Ramos",
+  "build": {
+    "productName": "Save Money",
+    "win": {
+      "target": "nsis"
+    }
+  },
   "scripts": {
     "start": "electron-forge start",
+    "dist": "electron-builder",
     "package": "electron-forge package",
     "make": "electron-forge make"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/herik-silva/Save-Money.git"
+    "url": "git+https://github.com/herik-silva/Save-Money-Electron.git"
   },
   "keywords": [],
-  "author": "Herik Ramos",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/herik-silva/Save-Money/issues"
+    "url": "https://github.com/herik-silva/Save-Money-Electron/issues"
   },
-  "homepage": "https://github.com/herik-silva/Save-Money#readme",
+  "homepage": "https://github.com/herik-silva/Save-Money-Electron#readme",
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.54",
     "@electron-forge/maker-deb": "^6.0.0-beta.54",
     "@electron-forge/maker-rpm": "^6.0.0-beta.54",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
     "@electron-forge/maker-zip": "^6.0.0-beta.54",
-    "electron": "^11.1.1"
+    "electron": "^11.1.1",
+    "electron-builder": "^22.9.1"
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
-    "moment": "^2.29.1",
     "sqlite": "^4.0.19",
     "sqlite3": "^5.0.0"
   },
   "config": {
     "forge": {
       "packagerConfig": {},
-      "electronPackagerConfig": {
-        "icon": "./resources/app/resources/logoApp.png"
-      },
       "makers": [
         {
-          "name": "@electron-forge/maker-zip",
+          "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "Save Money"
+            "name": "Save_Money"
           }
         },
         {

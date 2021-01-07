@@ -15,7 +15,7 @@ async function factoryControllerGastos(){
          * @param {Number} valor Valor do Card. Ex: 25.00 ou 25.
          * @param {Date} data_criada Data em que o card foi criado.
          */
-        criarCard: async(titulo, valor, data_criada)=>{
+        async criarCard(titulo, valor, data_criada){
             const card ={
                 id: ControllerGastos.ultimoId,
                 titulo: titulo,
@@ -33,7 +33,7 @@ async function factoryControllerGastos(){
         /**
          * Carrega todos os card do banco de dados para aplicação.
          */
-        carregarCards: async()=>{
+        async carregarCards(){
             ControllerGastos.listaGastos = await GastosDAO.carregarCards();
             console.log(ControllerGastos.listaGastos);
             if(ControllerGastos.listaGastos.length>0){
@@ -47,7 +47,7 @@ async function factoryControllerGastos(){
          * @param {String} titulo Titulo do card.
          * @param {Number} valor Valor do card. Ex: 25.00 ou 25. 
          */
-        atualizarCard: async (id, titulo, valor)=>{
+        async atualizarCard(id, titulo, valor){
             await GastosDAO.atualizarCard(id, titulo, valor);
         },
 
@@ -55,7 +55,7 @@ async function factoryControllerGastos(){
          * Remove o card selecionado no banco de dados.
          * @param {Number} id Id do Card.
          */
-        removerCard: async(id)=>{
+        async removerCard(id){
             await GastosDAO.deletarCard(id);
         }
     }

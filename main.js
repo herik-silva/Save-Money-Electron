@@ -1,14 +1,9 @@
 const { app, BrowserWindow, ipcMain, screen } = require('electron');
 const path = require('path');
-var ControllerLucros, ControllerGastos;
 
-require('./Controllers/ControllerLucros')().then((value)=>{
-  ControllerLucros = value;
-});
+const ControllerLucros = require('./Controllers/ControllerLucros')();
 
-require('./Controllers/ControllerGastos')().then((value)=>{
-  ControllerGastos = value;
-})
+const ControllerGastos = require('./Controllers/ControllerGastos')()
 
 
 function createWindow () {
@@ -31,7 +26,8 @@ function createWindow () {
 
   win.once('ready-to-show', ()=>{
       win.show();
-  })
+  });
+
 }
 
 ipcMain.on('main/resolution',(event,arg)=>{
@@ -40,7 +36,7 @@ ipcMain.on('main/resolution',(event,arg)=>{
 
 // Fecha janela quando usuário clicar em fechar
 ipcMain.on('main/close',(event,arg)=>{
-   BrowserWindow.getFocusedWindow().close();
+    BrowserWindow.getFocusedWindow().close();
 })
 
 ipcMain.on('main/minimize',(event,arg)=>{
@@ -59,11 +55,11 @@ ipcMain.on('main/cangeIcon',(event,isMaximized)=>{
 ipcMain.on('main/maximize',(event,isMaximized)=>{
     if(isMaximized){
         BrowserWindow.getFocusedWindow().maximize();
-        event.reply('render/changeIcon',true);
+        event.reply('render/changeIcon',[true, "OK"]);
     }
     else{
         BrowserWindow.getFocusedWindow().unmaximize();
-        event.reply('render/changeIcon',false);
+        event.reply('render/changeIcon',[false, "desOK"]);
     }
 })
 
@@ -88,41 +84,36 @@ app.on('activate', () => {
 
 // Banco de Dados
 
-ipcMain.on('main/editarValor',(event,arg)=>{
-  const [id, titulo, valor, tipo] = arg;
-
-  if(tipo=='Lucro'){
-    ControllerLucros.atualizarCard(id, titulo, valor);
-  }
-  else{
-    ControllerGastos.atualizarCard(id, titulo, valor);
-  }
-})
-
 ipcMain.on('main/inserirCard',(event, arg)=>{
   const [card, tipo] = arg
 
   console.log("CRIADO: "+card.titulo);
   
   if(tipo=='Lucro'){
-    ControllerLucros.criarCard(card.titulo,card.valor,card.data);
-    ControllerLucros.carregarCards();
+    ControllerLucros.then((Controller)=>{
+      Controller.criarCard(card.titulo, card.valor, card.data);
+    });
   }
   else{
-    ControllerGastos.criarCard(card.titulo,card.valor,card.data);
-    ControllerGastos.carregarCards();
+    ControllerGastos.then((Controller)=>{
+      Controller.criarCard(card.titulo, card.valor, card.data);
+    })
   }
 })
 
 ipcMain.on('main/primeiroCarregamento', (event, arg)=>{
-  ControllerLucros.carregarCards().then((value)=>{
-    console.log(`Enviando: ${ControllerLucros.listaLucros}`);
-    event.reply('render/primeiroCarregamento', [ControllerLucros.listaLucros, true, 'Lucro']);
+  ControllerLucros.then((Controller)=>{
+    Controller.carregarCards().then(()=>{
+      console.log("LISTA LUCROS: " + Controller.listaLucros);
+      event.reply('render/primeiroCarregamento', [Controller.listaLucros, true, 'Lucro']);
+    });
   });
   
-  ControllerGastos.carregarCards().then((value)=>{
-    console.log(`Enviando Gastos: ${ControllerGastos.listaGastos}`);
-    event.reply('render/primeiroCarregamento', [ControllerGastos.listaGastos, true, 'Gasto']);
+  ControllerGastos.then((Controller)=>{
+    Controller.carregarCards().then(()=>{
+      console.log("LISTA GASTOS: " + Controller.listaGastos);
+      event.reply('render/primeiroCarregamento', [Controller.listaGastos, true, 'Gasto']);
+    })
   })
 })
 
@@ -131,11 +122,15 @@ ipcMain.on('main/removerCard', (event,arg)=>{
 
   if(tipo=='Lucro'){
     console.log(`ID REMOVIDO: ${id}`);
-    ControllerLucros.removerCard(id);
+    ControllerLucros.then((Controller)=>{
+      Controller.removerCard(id);
+    });
   }
   else{
     console.log(`ID REMOVIDO: ${id}`);
-    ControllerGastos.removerCard(id);
+    ControllerGastos.then((Controller)=>{
+      Controller.removerCard(id);
+    });
   }
 })
 
@@ -152,10 +147,14 @@ ipcMain.on('main/atualizarCard',(event,arg)=>{
   console.log(`ID: ${card.id} - Titulo: ${card.titulo} - Valor: ${card.valor}`);
 
   if(card.tipo=='Lucro'){
-    ControllerLucros.atualizarCard(card.id,card.titulo,card.valor);
+    ControllerLucros.then((Controller)=>{
+      Controller.atualizarCard(card.id,card.titulo, card.valor);
+    });
   }
   else{
-    ControllerGastos.atualizarCard(card.id,card.titulo,card.valor);
+    ControllerGastos.then((Controller)=>{
+      Controller.atualizarCard(card.id,card.titulo, card.valor);
+    });
   }
 
   console.log("Atualizado!");

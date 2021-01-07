@@ -79,6 +79,7 @@ const botaoMaximizar = {
             botaoMaximizar.maximize();
         })
         ipcRenderer.on('render/changeIcon',(event,arg)=>{
+            console.log(arg[1]);
             if(botaoMaximizar.isOnMaximized){
                 document.getElementById('maximizar').setAttribute('src','../resources/unmaximize.png')
             }
